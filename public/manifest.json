@@ -1,0 +1,42 @@
+{
+  "name": "ACB Computer",
+  "short_name": "ACB Computer",
+  "description": "ACB Computer là cửa hàng bán máy tính và phụ kiện máy tính, chúng tôi cung cấp các sản phẩm chất lượng cao với giá cả phải chăng.",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "vi-VN",
+  "dir": "ltr",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "type": "image/png",
+      "sizes": "1200x630",
+      "form_factor": "wide",
+      "label": "Next.js Boilerplate"
+    }
+  ]
+}
