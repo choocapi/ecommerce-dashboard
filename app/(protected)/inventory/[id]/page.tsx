@@ -17,7 +17,7 @@ import { formatCurrency, formatDateTime } from "@/utils";
 
 import Link from "next/link";
 import { useState } from "react";
-import { InventoryMutateDrawer } from "../_components/inventory-mutate-drawer";
+import { InventoryDrawer } from "../_components/inventory-drawer";
 import { InventoryProvider } from "../_components/inventory-provider";
 import { InventoryTransactionsTable } from "../_components/inventory-transactions-table";
 import ProductImages from "./_components/product-images";
@@ -179,7 +179,7 @@ export default function InventoryDetailPage() {
         </Tabs>
       </div>
 
-      <InventoryMutateDrawer
+      <InventoryDrawer
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
         currentProduct={selectedProduct}

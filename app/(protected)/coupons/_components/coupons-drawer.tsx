@@ -39,17 +39,13 @@ import { ICoupon } from "@/types/coupon";
 import { CouponTypeEnum } from "@/types/enums";
 import { Loader2 } from "lucide-react";
 
-interface CouponsMutateDrawerProps {
+interface CouponsDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentCoupon: ICoupon | null;
 }
 
-export function CouponsMutateDrawer({
-  open,
-  onOpenChange,
-  currentCoupon,
-}: CouponsMutateDrawerProps) {
+export function CouponsDrawer({ open, onOpenChange, currentCoupon }: CouponsDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const isUpdate = !!currentCoupon;
@@ -100,7 +96,6 @@ export function CouponsMutateDrawer({
   const handleSubmit = async (values: CouponFormValues) => {
     setLoading(true);
     try {
-      // Convert Date objects to ISO strings for backend (Instant type)
       const submitData = {
         ...values,
         description: values.description || undefined,

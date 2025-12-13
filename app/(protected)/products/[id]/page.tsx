@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductsMutateDrawer } from "@/app/(protected)/products/_components/products-mutate-drawer";
+import { ProductsDrawer } from "@/app/(protected)/products/_components/products-drawer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -186,7 +186,7 @@ export default function ProductDetailPage() {
       <ProductReviews product={product} />
 
       {/* Edit Drawer */}
-      <ProductsMutateDrawer
+      <ProductsDrawer
         open={editDrawerOpen}
         onOpenChange={handleEditDrawerChange}
         currentProduct={product}

@@ -34,7 +34,7 @@ import { InventoryTransactionTypeEnum } from "@/types/enums";
 import { IProduct } from "@/types/products";
 import { ISupplier } from "@/types/supplier";
 
-interface InventoryMutateDrawerProps {
+interface InventoryDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentProduct: IProduct | null;
@@ -46,11 +46,7 @@ const transactionTypeOptions = [
   { value: InventoryTransactionTypeEnum.ADJUST, label: "Điều chỉnh tồn kho" },
 ];
 
-export function InventoryMutateDrawer({
-  open,
-  onOpenChange,
-  currentProduct,
-}: InventoryMutateDrawerProps) {
+export function InventoryDrawer({ open, onOpenChange, currentProduct }: InventoryDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
@@ -117,7 +113,6 @@ export function InventoryMutateDrawer({
           productId: currentProduct.id,
           type: InventoryTransactionTypeEnum.IN,
           quantity: 1,
-          // Don't set targetQuantity for IN/OUT types - only for ADJUST
           targetQuantity: undefined,
           price: currentProduct.importPrice || undefined,
           note: "",

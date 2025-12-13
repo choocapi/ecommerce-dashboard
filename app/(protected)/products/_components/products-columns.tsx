@@ -1,6 +1,9 @@
+import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { Feature } from "@/config/permissions-config";
+import { useFeaturePermissions } from "@/hooks/use-feature-permissions";
+import { productService } from "@/services/productService";
 import {
   IProduct,
   getProductImageUrl,
@@ -14,13 +17,9 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { productService } from "@/services/productService";
 import { useProducts } from "./products-provider";
-import { useFeaturePermissions } from "@/hooks/use-feature-permissions";
-import { Feature } from "@/config/permissions-config";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ product }: { product: IProduct }) {
+function ActionGroup({ product }: { product: IProduct }) {
   const { setOpen, setCurrentRow } = useProducts();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -46,7 +45,6 @@ function ActionsCell({ product }: { product: IProduct }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return (
       <div className="flex items-center gap-2">
@@ -225,6 +223,6 @@ export const productsColumns: ColumnDef<IProduct>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell product={row.original} />,
+    cell: ({ row }) => <ActionGroup product={row.original} />,
   },
 ];

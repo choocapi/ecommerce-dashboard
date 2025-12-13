@@ -1,8 +1,8 @@
 import { queryOptions, type QueryFunction } from "@tanstack/react-query";
 
 /**
- * Generic factory để tạo query options
- * Giảm boilerplate code khi tạo query options cho services
+ * Generic factory to create query options
+ * Reduce boilerplate code when creating query options for services
  */
 export function createQueryOptions<TData, TParams = void>(
   key: readonly string[],
@@ -23,8 +23,8 @@ export function createQueryOptions<TData, TParams = void>(
       queryKey: params ? [...key, params] : [...key],
       queryFn: fn,
       enabled: params && options?.enabled ? options.enabled(params) : true,
-      staleTime: options?.staleTime ?? 5 * 60 * 1000, // Default 5 phút
-      gcTime: options?.gcTime ?? 10 * 60 * 1000, // Default 10 phút
+      staleTime: options?.staleTime ?? 5 * 60 * 1000,
+      gcTime: options?.gcTime ?? 10 * 60 * 1000,
     });
   };
 }

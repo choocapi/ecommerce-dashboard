@@ -2,9 +2,6 @@ import { Feature } from "@/config/permissions-config";
 import { IUser } from "@/types/user";
 import { canView } from "./permissions";
 
-/**
- * Route to Feature mapping for sidebar items
- */
 const SIDEBAR_ROUTE_FEATURES: Record<string, Feature> = {
   "/": Feature.PRODUCTS, // Dashboard
   "/products": Feature.PRODUCTS,
@@ -23,9 +20,6 @@ const SIDEBAR_ROUTE_FEATURES: Record<string, Feature> = {
   "/settings/system": Feature.SYSTEM_SETTINGS,
 };
 
-/**
- * Check if user can view a sidebar item by its URL
- */
 export function canViewSidebarItem(user: IUser | null, url: string): boolean {
   const feature = SIDEBAR_ROUTE_FEATURES[url];
   if (!feature) {
@@ -35,9 +29,6 @@ export function canViewSidebarItem(user: IUser | null, url: string): boolean {
   return canView(user, feature);
 }
 
-/**
- * Filter sidebar items recursively based on VIEW permissions
- */
 export function filterSidebarItemsByPermission<T extends { url?: string; items?: T[] }>(
   items: T[],
   user: IUser | null,

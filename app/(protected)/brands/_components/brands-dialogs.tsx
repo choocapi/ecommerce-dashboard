@@ -1,30 +1,29 @@
-import { BrandsMutateDrawer } from './brands-mutate-drawer'
-import { useBrands } from './brands-provider'
+import { BrandsDrawer } from "./brands-drawer";
+import { useBrands } from "./brands-provider";
 
 export function BrandsDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } = useBrands()
+  const { open, setOpen, currentRow, setCurrentRow } = useBrands();
 
   return (
     <>
-      <BrandsMutateDrawer
-        key='brand-create'
-        open={open === 'create'}
-        onOpenChange={() => setOpen('create')}
+      <BrandsDrawer
+        key="brand-create"
+        open={open === "create"}
+        onOpenChange={() => setOpen("create")}
         currentBrand={null}
       />
 
-      <BrandsMutateDrawer
+      <BrandsDrawer
         key={`brand-update-${currentRow?.id}`}
-        open={open === 'update'}
+        open={open === "update"}
         onOpenChange={() => {
-          setOpen('update')
+          setOpen("update");
           setTimeout(() => {
-            setCurrentRow(null)
-          }, 500)
+            setCurrentRow(null);
+          }, 500);
         }}
         currentBrand={currentRow}
       />
-
     </>
-  )
+  );
 }

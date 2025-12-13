@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dfvzocorz';
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "dfvzocorz";
 const CLOUDINARY_UPLOAD_PRESET =
-  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'acb-computers';
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "acb-computers";
 
 export interface CloudinaryUploadResponse {
   secure_url: string;
@@ -16,44 +16,44 @@ export interface CloudinaryUploadResponse {
 
 export const cloudinaryService = {
   /**
-   * Upload ảnh lên Cloudinary
-   * @param file - File ảnh cần upload
-   * @param folder - Folder trên Cloudinary (optional)
-   * @returns Promise với URL ảnh đã upload
+   * Upload image to Cloudinary
+   * @param file - Image file to upload
+   * @param folder - Folder on Cloudinary (optional)
+   * @returns Promise with the uploaded image URL
    */
-  uploadImage: async (file: File, folder = 'products'): Promise<string> => {
+  uploadImage: async (file: File, folder = "products"): Promise<string> => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    formData.append('folder', folder);
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", folder);
 
     try {
       const response = await axios.post<CloudinaryUploadResponse>(
         `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-        formData
+        formData,
       );
 
       return response.data.secure_url;
     } catch (error: any) {
-      console.error('Cloudinary upload error:', error);
-      throw new Error(error?.response?.data?.error?.message || 'Failed to upload image');
+      console.error("Cloudinary upload error:", error);
+      throw new Error(error?.response?.data?.error?.message || "Failed to upload image");
     }
   },
 
   /**
-   * Upload nhiều ảnh
-   * @param files - Mảng các file ảnh
-   * @param folder - Folder trên Cloudinary
-   * @returns Promise với mảng URLs
+   * Upload multiple images
+   * @param files - Array of image files
+   * @param folder - Folder on Cloudinary
+   * @returns Promise with the array of uploaded image URLs
    */
-  uploadMultipleImages: async (files: File[], folder = 'products'): Promise<string[]> => {
+  uploadMultipleImages: async (files: File[], folder = "products"): Promise<string[]> => {
     const uploadPromises = files.map((file) => cloudinaryService.uploadImage(file, folder));
     return Promise.all(uploadPromises);
   },
 
   deleteImage: async (publicId: string): Promise<void> => {
     // This requires a signed request from backend
-    console.log('Delete image:', publicId);
+    console.log("Delete image:", publicId);
     // Implement backend endpoint if needed
   },
 };

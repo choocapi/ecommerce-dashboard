@@ -43,7 +43,6 @@ export default function ProfileSettingsPage() {
 
   useEffect(() => {
     if (user) {
-      // Format dateOfBirth from ISO string to YYYY-MM-DD format for form
       const dateOfBirth = user.dateOfBirth
         ? new Date(user.dateOfBirth).toISOString().split("T")[0]
         : "";
@@ -60,7 +59,7 @@ export default function ProfileSettingsPage() {
     }
   }, [user, form]);
 
-  // Mutation để update avatar
+  // Mutation to update profile avatar
   const updateAvatarMutation = useMutation({
     mutationFn: (avatarUrl: string) => userService.updateMyProfile({ avatarUrl }),
     onSuccess: async (_, avatarUrl) => {
@@ -73,7 +72,7 @@ export default function ProfileSettingsPage() {
     },
   });
 
-  // Mutation để update profile
+  // Mutation to update profile
   const updateProfileMutation = useMutation({
     mutationFn: (values: ProfileFormValues) =>
       userService.updateMyProfile({

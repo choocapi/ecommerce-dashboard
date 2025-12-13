@@ -18,13 +18,10 @@ export function BrandsProvider({ children }: { children: React.ReactNode }) {
   const [currentRow, setCurrentRow] = useState<IBrand | null>(null);
 
   return (
-    <BrandsContext value={{ open, setOpen, currentRow, setCurrentRow }}>
-      {children}
-    </BrandsContext>
+    <BrandsContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</BrandsContext>
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useBrands = () => {
   const brandsContext = React.useContext(BrandsContext);
 

@@ -23,17 +23,13 @@ import { supplierService } from "@/services/supplierService";
 import { ISupplier } from "@/types/supplier";
 import { Loader2 } from "lucide-react";
 
-interface SuppliersMutateDrawerProps {
+interface SuppliersDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentSupplier: ISupplier | null;
 }
 
-export function SuppliersMutateDrawer({
-  open,
-  onOpenChange,
-  currentSupplier,
-}: SuppliersMutateDrawerProps) {
+export function SuppliersDrawer({ open, onOpenChange, currentSupplier }: SuppliersDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const isUpdate = !!currentSupplier;

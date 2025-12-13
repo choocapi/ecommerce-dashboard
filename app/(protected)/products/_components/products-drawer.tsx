@@ -28,17 +28,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { SpecificationsField } from "./specifications-field";
 
-type ProductsMutateDrawerProps = {
+type ProductsDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentProduct: IProduct | null;
 };
 
-export function ProductsMutateDrawer({
-  open,
-  onOpenChange,
-  currentProduct,
-}: ProductsMutateDrawerProps) {
+export function ProductsDrawer({ open, onOpenChange, currentProduct }: ProductsDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [descriptionContent, setDescriptionContent] = useState("");
@@ -151,7 +147,6 @@ export function ProductsMutateDrawer({
       // If no discount, price equals original price
       form.setValue("price", originalPrice);
     } else {
-      // If no original price, reset price to 0
       form.setValue("price", 0);
     }
   }, [form.watch("originalPrice"), form.watch("discountPercentage"), form]);

@@ -74,7 +74,7 @@ export default function ProductImages({ product, className }: ProductImagesProps
           )}
         </div>
 
-        {/* Thumbnail Gallery - luôn hiển thị kể cả chỉ có 1 ảnh */}
+        {/* Thumbnail Gallery */}
         <div className="flex gap-2 overflow-x-auto p-1 scrollbar-hide">
           {images.map((image, index) => (
             <button

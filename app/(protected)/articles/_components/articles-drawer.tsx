@@ -35,17 +35,13 @@ import { articleService } from "@/services/articleService";
 import { IArticle } from "@/types/article";
 import { Loader2 } from "lucide-react";
 
-interface ArticlesMutateDrawerProps {
+interface ArticlesDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentArticle: IArticle | null;
 }
 
-export function ArticlesMutateDrawer({
-  open,
-  onOpenChange,
-  currentArticle,
-}: ArticlesMutateDrawerProps) {
+export function ArticlesDrawer({ open, onOpenChange, currentArticle }: ArticlesDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -94,7 +90,6 @@ export function ArticlesMutateDrawer({
   const handleSubmit = async (values: ArticleFormValues) => {
     setLoading(true);
     try {
-      // Validate that image is uploaded
       if (imageUrls.length === 0) {
         toast.error("Vui lòng tải lên hình ảnh đại diện");
         return;
@@ -113,7 +108,6 @@ export function ArticlesMutateDrawer({
         toast.success("Đã thêm bài viết thành công");
       }
 
-      // Invalidate and refetch articles data
       await queryClient.invalidateQueries({
         queryKey: ["articles"],
       });

@@ -1,5 +1,5 @@
 import { OrdersDetailSheet } from "./orders-detail-sheet";
-import { OrdersMutateDrawer } from "./orders-mutate-drawer";
+import { OrdersDrawer } from "./orders-drawer";
 import { useOrders } from "./orders-provider";
 
 export function OrdersDialogs() {
@@ -7,7 +7,7 @@ export function OrdersDialogs() {
 
   return (
     <>
-      <OrdersMutateDrawer
+      <OrdersDrawer
         key="order-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}

@@ -12,8 +12,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useSuppliers } from "./suppliers-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ supplier }: { supplier: ISupplier }) {
+function ActionGroup({ supplier }: { supplier: ISupplier }) {
   const { setOpen, setCurrentRow } = useSuppliers();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.SUPPLIERS);
@@ -38,7 +37,6 @@ function ActionsCell({ supplier }: { supplier: ISupplier }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -135,7 +133,7 @@ export const suppliersColumns: ColumnDef<ISupplier>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell supplier={row.original} />,
+    cell: ({ row }) => <ActionGroup supplier={row.original} />,
     enableSorting: false,
   },
 ];

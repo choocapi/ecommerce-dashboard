@@ -9,8 +9,7 @@ import { Mail, Pencil, Phone } from "lucide-react";
 import Image from "next/image";
 import { useCustomers } from "./customers-provider";
 
-// Actions Cell Component (only edit)
-function ActionsCell({ customer }: { customer: IUser }) {
+function ActionGroup({ customer }: { customer: IUser }) {
   const { setOpen, setCurrentRow } = useCustomers();
   const { canUpdate } = useFeaturePermissions(Feature.CUSTOMERS);
 
@@ -147,7 +146,7 @@ export const customersColumns: ColumnDef<IUser>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell customer={row.original} />,
+    cell: ({ row }) => <ActionGroup customer={row.original} />,
     enableSorting: false,
   },
 ];

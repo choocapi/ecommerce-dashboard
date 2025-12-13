@@ -14,13 +14,12 @@ import { IReturnRequest, RETURN_STATUS_LABELS, getReturnStatusColor } from "@/ty
 import { getUserFullName } from "@/utils";
 import ReturnRequestImages from "./return-request-images";
 
-interface ReturnRequestsMutateDrawerProps {
+interface ReturnRequestsDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentReturnRequest: IReturnRequest | null;
 }
 
-// Status Badge Component
 const StatusBadge = ({ status }: { status: ReturnStatus }) => {
   return (
     <Badge variant="outline" className={`text-sm px-3 py-1 ${getReturnStatusColor(status)}`}>
@@ -29,7 +28,6 @@ const StatusBadge = ({ status }: { status: ReturnStatus }) => {
   );
 };
 
-// Info Row Component
 const InfoRow = ({ label, value }: { label: string; value?: string | null }) => (
   <div>
     <label className="text-sm font-medium text-muted-foreground">{label}</label>
@@ -37,11 +35,11 @@ const InfoRow = ({ label, value }: { label: string; value?: string | null }) => 
   </div>
 );
 
-export function ReturnRequestsMutateDrawer({
+export function ReturnRequestsDrawer({
   open,
   onOpenChange,
   currentReturnRequest,
-}: ReturnRequestsMutateDrawerProps) {
+}: ReturnRequestsDrawerProps) {
   const queryClient = useQueryClient();
   const [adminNote, setAdminNote] = useState("");
   const [loading, setLoading] = useState(false);

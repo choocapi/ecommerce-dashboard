@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,89 +16,123 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
-import { CustomerFormValues, customerSchema } from "@/schemas/customers";
+import { formatDateForInput, parseDateFromInput } from "@/schemas/coupons";
+import { StaffFormValues, staffSchema, updateStaffSchema } from "@/schemas/staffs";
 import { userService } from "@/services/userService";
+import { RolesEnum } from "@/types/enums";
 import { IUser } from "@/types/user";
+import { Loader2 } from "lucide-react";
 
-interface CustomersMutateDrawerProps {
+interface StaffsDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentCustomer: IUser | null;
+  currentStaff: IUser | null;
 }
 
-export function CustomersMutateDrawer({
-  open,
-  onOpenChange,
-  currentCustomer,
-}: CustomersMutateDrawerProps) {
+export function StaffsDrawer({ open, onOpenChange, currentStaff }: StaffsDrawerProps) {
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
+  const isUpdate = !!currentStaff;
 
-  // Only allow update mode
-  if (!currentCustomer) {
-    return null;
-  }
-
-  const form = useForm<CustomerFormValues>({
-    resolver: zodResolver(customerSchema),
+  const form = useForm<StaffFormValues>({
+    resolver: zodResolver((isUpdate ? updateStaffSchema : staffSchema) as any),
     defaultValues: {
       email: "",
+      password: "",
       firstName: "",
       lastName: "",
       phoneNumber: "",
       address: "",
       dateOfBirth: "",
+      roles: [],
       isActive: true,
       emailVerified: false,
     },
   });
 
-  // Reset form when dialog opens/closes or customer changes
+  // Reset form when dialog opens/closes or staff changes
   useEffect(() => {
     if (open) {
-      if (currentCustomer) {
+      if (currentStaff) {
         form.reset({
-          email: currentCustomer.email,
-          firstName: currentCustomer.firstName || "",
-          lastName: currentCustomer.lastName || "",
-          phoneNumber: currentCustomer.phoneNumber || "",
-          address: currentCustomer.address || "",
-          dateOfBirth: currentCustomer.dateOfBirth || "",
-          isActive: currentCustomer.isActive ?? true,
-          emailVerified: currentCustomer.emailVerified ?? false,
+          email: currentStaff.email,
+          password: "", // Password not shown when updating
+          firstName: currentStaff.firstName || "",
+          lastName: currentStaff.lastName || "",
+          phoneNumber: currentStaff.phoneNumber || "",
+          address: currentStaff.address || "",
+          dateOfBirth: currentStaff.dateOfBirth || "",
+          roles: currentStaff.roles?.map((role) => role.name) || [],
+          isActive: currentStaff.isActive ?? true,
+          emailVerified: currentStaff.emailVerified ?? false,
         });
       } else {
         form.reset({
           email: "",
+          password: "",
           firstName: "",
           lastName: "",
           phoneNumber: "",
           address: "",
           dateOfBirth: "",
+          roles: [],
           isActive: true,
           emailVerified: false,
         });
       }
     }
-  }, [open, currentCustomer, form]);
+  }, [open, currentStaff, form]);
 
-  const handleSubmit = async (values: CustomerFormValues) => {
+  const handleSubmit = async (values: StaffFormValues) => {
+    setLoading(true);
     try {
-      await userService.update(currentCustomer.id, values);
-      toast.success("Đã cập nhật khách hàng thành công");
+      // Convert roles array to proper format for backend
+      // Backend expects Set<String> (array of strings), not IRole[] objects
+      const submitData = {
+        ...values,
+        firstName: values.firstName || undefined,
+        lastName: values.lastName || undefined,
+        phoneNumber: values.phoneNumber || undefined,
+        address: values.address || undefined,
+        dateOfBirth: values.dateOfBirth || undefined,
+        password: values.password || undefined, // Only sent when creating
+        roles: values.roles, // Backend expects string[], not IRole[] objects
+      };
 
-      // Invalidate and refetch customers data
+      if (isUpdate && currentStaff) {
+        // Remove password when updating (backend doesn't expect it)
+        const { password, ...updateData } = submitData;
+        // Type assertion needed: backend accepts string[] for roles, but IUser type has IRole[]
+        await userService.update(currentStaff.id, updateData as any);
+        toast.success("Đã cập nhật nhân viên thành công");
+      } else {
+        // Type assertion needed: backend accepts string[] for roles, but IUser type has IRole[]
+        await userService.create(submitData as any);
+        toast.success("Đã thêm nhân viên thành công");
+      }
+
+      // Invalidate and refetch staffs data
       await queryClient.invalidateQueries({
-        queryKey: ["customers", "list"],
+        queryKey: ["staffs", "list"],
       });
 
       onOpenChange(false);
       form.reset();
     } catch (error: any) {
-      toast.error(error?.message || "Không thể cập nhật khách hàng");
+      toast.error(error?.message || `Không thể ${isUpdate ? "cập nhật" : "thêm"} nhân viên`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,17 +140,17 @@ export function CustomersMutateDrawer({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="flex flex-col w-full sm:max-w-2xl">
         <SheetHeader className="text-start">
-          <SheetTitle>Chỉnh sửa khách hàng</SheetTitle>
+          <SheetTitle>{isUpdate ? "Chỉnh sửa nhân viên" : "Thêm nhân viên mới"}</SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form
-            id="customers-form"
+            id="staffs-form"
             onSubmit={form.handleSubmit(handleSubmit)}
             className="flex-1 space-y-6 overflow-y-auto px-4 pb-6"
           >
-            {/* Basic Info */}
+            {/* Account Info */}
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
+              <h3 className="text-lg font-medium">Thông tin tài khoản</h3>
               <div className="rounded-lg border bg-card p-4 space-y-4">
                 <FormField
                   control={form.control}
@@ -125,12 +159,39 @@ export function CustomersMutateDrawer({
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" placeholder="Nhập email" disabled />
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="Nhập email"
+                          disabled={isUpdate}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                {!isUpdate && (
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mật khẩu</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="password" placeholder="Nhập mật khẩu" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Basic Info */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
+              <div className="rounded-lg border bg-card p-4 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -180,7 +241,11 @@ export function CustomersMutateDrawer({
                       <FormItem>
                         <FormLabel>Ngày sinh</FormLabel>
                         <FormControl>
-                          <Input {...field} type="date" />
+                          <Input
+                            type="date"
+                            value={formatDateForInput(field.value)}
+                            onChange={(e) => field.onChange(parseDateFromInput(e.target.value))}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -203,10 +268,34 @@ export function CustomersMutateDrawer({
               </div>
             </div>
 
-            {/* Status */}
+            {/* Role & Status */}
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Trạng thái</h3>
-              <div className="rounded-lg border bg-card p-4">
+              <h3 className="text-lg font-medium">Vai trò & Trạng thái</h3>
+              <div className="rounded-lg border bg-card p-4 space-y-4">
+                <FormField
+                  control={form.control}
+                  name="roles"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Vai trò</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value?.[0] || ""}
+                          onValueChange={(value) => field.onChange([value])}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Chọn vai trò" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={RolesEnum.ADMIN}>Quản trị viên</SelectItem>
+                            <SelectItem value={RolesEnum.STAFF}>Nhân viên</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -241,8 +330,14 @@ export function CustomersMutateDrawer({
         </Form>
 
         <SheetFooter className="gap-2">
-          <Button form="customers-form" type="submit">
-            Cập nhật
+          <Button form="staffs-form" type="submit">
+            {loading ? (
+              <Loader2 className="animate-spin" />
+            ) : isUpdate ? (
+              "Cập nhật"
+            ) : (
+              "Thêm nhân viên"
+            )}
           </Button>
         </SheetFooter>
       </SheetContent>

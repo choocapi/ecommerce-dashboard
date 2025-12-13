@@ -15,8 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useStaffs } from "./staffs-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ staff }: { staff: IUser }) {
+function ActionGroup({ staff }: { staff: IUser }) {
   const { setOpen, setCurrentRow } = useStaffs();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.STAFFS);
@@ -41,7 +40,6 @@ function ActionsCell({ staff }: { staff: IUser }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -227,7 +225,7 @@ export const staffsColumns: ColumnDef<IUser>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell staff={row.original} />,
+    cell: ({ row }) => <ActionGroup staff={row.original} />,
     enableSorting: false,
   },
 ];

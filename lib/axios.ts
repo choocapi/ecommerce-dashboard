@@ -6,7 +6,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// gắn access token vào req header
+// Attach access token to request header
 api.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
 
@@ -17,13 +17,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// tự động gọi refresh api khi access token hết hạn
+// Automatically call refresh API when access token expires
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config;
 
-    // những api không cần check
+    // APIs that don't need to be checked
     if (
       originalRequest.url.includes("/auth/login") ||
       originalRequest.url.includes("/auth/register") ||

@@ -10,8 +10,7 @@ import { Pencil } from "lucide-react";
 import Image from "next/image";
 import { useReturnRequests } from "./return-requests-provider";
 
-// Actions Cell Component with only Edit button
-function ActionsCell({ returnRequest }: { returnRequest: IReturnRequest }) {
+function ActionGroup({ returnRequest }: { returnRequest: IReturnRequest }) {
   const { setOpen, setCurrentRow } = useReturnRequests();
   const { canUpdate } = useFeaturePermissions(Feature.RETURN_REQUESTS);
 
@@ -126,7 +125,7 @@ export const returnRequestsColumns: ColumnDef<IReturnRequest>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell returnRequest={row.original} />,
+    cell: ({ row }) => <ActionGroup returnRequest={row.original} />,
     enableSorting: false,
   },
 ];

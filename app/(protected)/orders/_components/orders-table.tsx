@@ -35,7 +35,7 @@ type DataTableProps = {
 };
 
 export function OrdersTable({ data }: DataTableProps) {
-  // Local UI-only states
+  // UI-only states
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -43,7 +43,7 @@ export function OrdersTable({ data }: DataTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // URL state management
+  // URL states
   const pageParam = searchParams.get("page");
   const pageIndex = pageParam ? Math.max(0, Number(pageParam) - 1) : 0;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
@@ -51,7 +51,7 @@ export function OrdersTable({ data }: DataTableProps) {
   const statusFilter = searchParams.get("status")?.split(",") || [];
   const paymentMethodFilter = searchParams.get("paymentMethod")?.split(",") || [];
 
-  // Local state for search input (to prevent input lag)
+  // Local state for search input
   const [searchInput, setSearchInput] = useState(globalFilter);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -63,7 +63,7 @@ export function OrdersTable({ data }: DataTableProps) {
       : []),
   ]);
 
-  // Update URL when column filters change
+  // Update URL when pagination/filter changes
   const updateColumnFilters = (updaterOrValue: any) => {
     const newFilters =
       typeof updaterOrValue === "function" ? updaterOrValue(columnFilters) : updaterOrValue;
@@ -74,7 +74,7 @@ export function OrdersTable({ data }: DataTableProps) {
     // Remove existing filter params
     newParams.delete("status");
     newParams.delete("paymentMethod");
-    newParams.delete("page"); // Reset to first page
+    newParams.delete("page");
 
     // Add new filter params
     newFilters.forEach((filter: any) => {
@@ -101,7 +101,7 @@ export function OrdersTable({ data }: DataTableProps) {
       Array.isArray(statusColumnFilter.value) &&
       statusColumnFilter.value.length > 0
     ) {
-      result.status = statusColumnFilter.value[0]; // Take first value for API
+      result.status = statusColumnFilter.value[0];
     }
 
     // Find paymentMethod filter from columnFilters
@@ -111,7 +111,7 @@ export function OrdersTable({ data }: DataTableProps) {
       Array.isArray(paymentMethodColumnFilter.value) &&
       paymentMethodColumnFilter.value.length > 0
     ) {
-      result.paymentMethod = paymentMethodColumnFilter.value[0]; // Take first value for API
+      result.paymentMethod = paymentMethodColumnFilter.value[0];
     }
 
     return result;
@@ -156,7 +156,7 @@ export function OrdersTable({ data }: DataTableProps) {
         pageSize,
       },
     },
-    enableRowSelection: false, // No multi-select as requested
+    enableRowSelection: false,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
@@ -184,10 +184,7 @@ export function OrdersTable({ data }: DataTableProps) {
       });
     },
     onColumnFiltersChange: updateColumnFilters,
-    // onGlobalFilterChange is now handled by handleSearchChange with debounce
-    onGlobalFilterChange: () => {
-      // This is handled by handleSearchChange, but we keep it to avoid warnings
-    },
+    onGlobalFilterChange: () => {},
   });
 
   // Sync searchInput with URL when URL changes externally (e.g., browser back/forward)
@@ -202,7 +199,7 @@ export function OrdersTable({ data }: DataTableProps) {
 
   // Handle search input change with debounce
   const handleSearchChange = (value: string) => {
-    setSearchInput(value); // Update input immediately (no lag)
+    setSearchInput(value);
 
     // Clear existing timeout
     if (debounceTimeoutRef.current) {
@@ -213,7 +210,7 @@ export function OrdersTable({ data }: DataTableProps) {
     debounceTimeoutRef.current = setTimeout(() => {
       updateUrl({
         filter: value || null,
-        page: "1", // Reset to first page when filtering
+        page: "1",
       });
     }, 500);
   };

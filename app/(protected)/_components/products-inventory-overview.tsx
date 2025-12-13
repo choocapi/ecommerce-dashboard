@@ -5,7 +5,7 @@ import { statisticsQueries } from "@/services/statisticsService";
 import { formatCurrency, formatNumber } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, DollarSign, Eye, Loader, Package } from "lucide-react";
-import { CategoryPerformanceChart } from "./category-performance-chart";
+import { CategoryChart } from "./category-chart";
 import { ProductsBestSaleChart } from "./products-best-sale-chart";
 import { RecentInventoryTransactions } from "./recent-inventory-transactions";
 import { StatsCard } from "./stats-card";
@@ -30,7 +30,7 @@ export function ProductsInventoryOverview() {
 
   return (
     <div className="space-y-4">
-      {/* Charts */}
+      {/* Best Sale & Category Charts */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
         <Card className="col-span-1 lg:col-span-4">
           <CardHeader>
@@ -45,7 +45,7 @@ export function ProductsInventoryOverview() {
             <CardTitle>Doanh thu theo danh mục</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategoryPerformanceChart data={productsData?.categoryPerformance} />
+            <CategoryChart data={productsData?.categoryPerformance} />
           </CardContent>
         </Card>
       </div>

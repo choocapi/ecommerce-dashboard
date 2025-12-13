@@ -14,8 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useCoupons } from "./coupons-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ coupon }: { coupon: ICoupon }) {
+function ActionGroup({ coupon }: { coupon: ICoupon }) {
   const { setOpen, setCurrentRow } = useCoupons();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.COUPONS);
@@ -40,7 +39,6 @@ function ActionsCell({ coupon }: { coupon: ICoupon }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -199,7 +197,7 @@ export const couponsColumns: ColumnDef<ICoupon>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell coupon={row.original} />,
+    cell: ({ row }) => <ActionGroup coupon={row.original} />,
     enableSorting: false,
   },
 ];

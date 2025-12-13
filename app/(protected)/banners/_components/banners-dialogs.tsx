@@ -1,4 +1,4 @@
-import { BannersMutateDrawer } from "./banners-mutate-drawer";
+import { BannersDrawer } from "./banners-drawer";
 import { useBanners } from "./banners-provider";
 
 export function BannersDialogs() {
@@ -6,14 +6,14 @@ export function BannersDialogs() {
 
   return (
     <>
-      <BannersMutateDrawer
+      <BannersDrawer
         key="banner-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
         currentBanner={null}
       />
 
-      <BannersMutateDrawer
+      <BannersDrawer
         key={`banner-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {

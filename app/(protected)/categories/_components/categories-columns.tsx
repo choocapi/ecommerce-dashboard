@@ -15,8 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useCategories } from "./categories-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ category }: { category: ICategory }) {
+function ActionGroup({ category }: { category: ICategory }) {
   const { setOpen, setCurrentRow } = useCategories();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.CATEGORIES);
@@ -41,7 +40,6 @@ function ActionsCell({ category }: { category: ICategory }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -165,7 +163,7 @@ export const categoriesColumns: ColumnDef<ICategory>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell category={row.original} />,
+    cell: ({ row }) => <ActionGroup category={row.original} />,
     enableSorting: false,
   },
 ];

@@ -2,11 +2,11 @@
 
 import type { ICategorySales } from "@/types/statistics";
 
-interface CategoryPerformanceChartProps {
+interface CategoryChartProps {
   data?: ICategorySales[];
 }
 
-export function CategoryPerformanceChart({ data }: CategoryPerformanceChartProps) {
+export function CategoryChart({ data }: CategoryChartProps) {
   if (!data || data.length === 0) {
     return (
       <div className="flex items-center justify-center h-[300px] text-muted-foreground">

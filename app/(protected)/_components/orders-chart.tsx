@@ -3,11 +3,11 @@
 import type { ITimePoint } from "@/types/statistics";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-interface OrdersTimelineChartProps {
+interface OrdersChartProps {
   data?: ITimePoint[] | null;
 }
 
-export function OrdersTimelineChart({ data }: OrdersTimelineChartProps) {
+export function OrdersChart({ data }: OrdersChartProps) {
   if (!data || data.length === 0) {
     return (
       <div className="flex items-center justify-center h-[300px] text-muted-foreground">

@@ -1,30 +1,29 @@
-import { SuppliersMutateDrawer } from './suppliers-mutate-drawer'
-import { useSuppliers } from './suppliers-provider'
+import { SuppliersDrawer } from "./suppliers-drawer";
+import { useSuppliers } from "./suppliers-provider";
 
 export function SuppliersDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } = useSuppliers()
+  const { open, setOpen, currentRow, setCurrentRow } = useSuppliers();
 
   return (
     <>
-      <SuppliersMutateDrawer
-        key='supplier-create'
-        open={open === 'create'}
-        onOpenChange={() => setOpen('create')}
+      <SuppliersDrawer
+        key="supplier-create"
+        open={open === "create"}
+        onOpenChange={() => setOpen("create")}
         currentSupplier={null}
       />
 
-      <SuppliersMutateDrawer
+      <SuppliersDrawer
         key={`supplier-update-${currentRow?.id}`}
-        open={open === 'update'}
+        open={open === "update"}
         onOpenChange={() => {
-          setOpen('update')
+          setOpen("update");
           setTimeout(() => {
-            setCurrentRow(null)
-          }, 500)
+            setCurrentRow(null);
+          }, 500);
         }}
         currentSupplier={currentRow}
       />
-
     </>
-  )
+  );
 }

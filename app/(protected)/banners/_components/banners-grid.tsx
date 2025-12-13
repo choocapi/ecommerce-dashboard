@@ -11,7 +11,7 @@ type BannersGridProps = {
 };
 
 export function BannersGrid({ data }: BannersGridProps) {
-  // Fetch all banners data (no pagination)
+  // Fetch all banners data
   const {
     data: bannersData,
     isLoading,

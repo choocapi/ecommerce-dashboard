@@ -19,8 +19,7 @@ import { Eye } from "lucide-react";
 import { toast } from "sonner";
 import { useOrders } from "./orders-provider";
 
-// Actions Cell Component
-function ActionsCell({ order }: { order: IOrder }) {
+function ActionGroup({ order }: { order: IOrder }) {
   const { setOpen, setCurrentRow } = useOrders();
 
   return (
@@ -67,7 +66,7 @@ function StatusCell({ order }: { order: IOrder }) {
         return;
       }
 
-      // Call the appropriate service method based on the new status
+      // Call service method
       let result: IOrder;
       switch (newStatus) {
         case OrderStatusEnum.PROCESSING:
@@ -178,6 +177,6 @@ export const ordersColumns: ColumnDef<IOrder>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell order={row.original} />,
+    cell: ({ row }) => <ActionGroup order={row.original} />,
   },
 ];

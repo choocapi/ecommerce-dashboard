@@ -1,4 +1,4 @@
-import { ReturnRequestsMutateDrawer } from "./return-requests-mutate-drawer";
+import { ReturnRequestsDrawer } from "./return-requests-drawer";
 import { useReturnRequests } from "./return-requests-provider";
 
 export function ReturnRequestsDialogs() {
@@ -6,7 +6,7 @@ export function ReturnRequestsDialogs() {
 
   return (
     <>
-      <ReturnRequestsMutateDrawer
+      <ReturnRequestsDrawer
         key={`return-request-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {
@@ -20,4 +20,3 @@ export function ReturnRequestsDialogs() {
     </>
   );
 }
-

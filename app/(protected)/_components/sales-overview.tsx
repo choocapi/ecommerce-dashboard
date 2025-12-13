@@ -8,7 +8,7 @@ import { formatCurrency, formatNumber } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import { CheckCircle, Clock, DollarSign, Loader, Percent, RotateCcw, XCircle } from "lucide-react";
 import { useState } from "react";
-import { OrdersTimelineChart } from "./orders-timeline-chart";
+import { OrdersChart } from "./orders-chart";
 import { PaymentMethodsChart } from "./payment-methods-chart";
 import { StatsCard } from "./stats-card";
 
@@ -26,7 +26,7 @@ export function SalesOverview() {
 
   return (
     <div className="space-y-4">
-      {/* Charts */}
+      {/* Payment Methods & Orders Charts */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
@@ -44,12 +44,12 @@ export function SalesOverview() {
             </div>
           </CardHeader>
           <CardContent>
-            <OrdersTimelineChart data={data?.ordersTimeline} />
+            <OrdersChart data={data?.ordersTimeline} />
           </CardContent>
         </Card>
       </div>
 
-      {/* Sales Summary Cards */}
+      {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatsCard
           title="Tổng doanh số"

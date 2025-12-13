@@ -1,4 +1,4 @@
-import { InventoryMutateDrawer } from "./inventory-mutate-drawer";
+import { InventoryDrawer } from "./inventory-drawer";
 import { useInventory } from "./inventory-provider";
 
 export function InventoryDialogs() {
@@ -6,7 +6,7 @@ export function InventoryDialogs() {
 
   return (
     <>
-      <InventoryMutateDrawer
+      <InventoryDrawer
         key={`inventory-create-${currentRow?.id || "new"}`}
         open={open === "create"}
         onOpenChange={(open) => {
@@ -20,7 +20,7 @@ export function InventoryDialogs() {
         currentProduct={currentRow}
       />
 
-      <InventoryMutateDrawer
+      <InventoryDrawer
         key={`inventory-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={(open) => {

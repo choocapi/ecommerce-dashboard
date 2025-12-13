@@ -25,12 +25,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-type OrdersMutateDrawerProps = {
+type OrdersDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export function OrdersMutateDrawer({ open, onOpenChange }: OrdersMutateDrawerProps) {
+export function OrdersDrawer({ open, onOpenChange }: OrdersDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<{ value: string; label: string; price: number }[]>([]);
@@ -221,55 +221,55 @@ export function OrdersMutateDrawer({ open, onOpenChange }: OrdersMutateDrawerPro
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Thông tin giao hàng</h3>
               <div className="rounded-lg border bg-card p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="shippingName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tên người nhận</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="Nhập tên người nhận" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="shippingPhone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Số điện thoại</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="Nhập số điện thoại" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
-                  name="shippingName"
+                  name="shippingAddress"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tên người nhận</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Nhập tên người nhận" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="shippingPhone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Số điện thoại</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Nhập số điện thoại" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <FormField
-                control={form.control}
-                name="shippingAddress"
-                render={({ field }) => (
                     <FormItem className="mt-4">
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Nhập địa chỉ" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormLabel>Địa chỉ</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Nhập địa chỉ" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="mt-4">
-              <AddressSelect
-                control={form.control}
-                setValue={form.setValue}
-                cityField="shippingCity"
-                districtField="shippingDistrict"
-                wardField="shippingWard"
-              />
+                  <AddressSelect
+                    control={form.control}
+                    setValue={form.setValue}
+                    cityField="shippingCity"
+                    districtField="shippingDistrict"
+                    wardField="shippingWard"
+                  />
                 </div>
               </div>
             </div>
@@ -278,55 +278,55 @@ export function OrdersMutateDrawer({ open, onOpenChange }: OrdersMutateDrawerPro
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Thanh toán & Trạng thái</h3>
               <div className="rounded-lg border bg-card p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="paymentMethod"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phương thức thanh toán</FormLabel>
-                      <SelectDropdown
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                        items={paymentMethodOptions}
-                        placeholder="Chọn phương thức thanh toán"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="paymentStatus"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Trạng thái thanh toán</FormLabel>
-                      <SelectDropdown
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                        items={paymentStatusOptions}
-                        placeholder="Chọn trạng thái thanh toán"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Trạng thái đơn hàng</FormLabel>
-                      <SelectDropdown
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                        items={statusOptions}
-                        placeholder="Chọn trạng thái đơn hàng"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="paymentMethod"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phương thức thanh toán</FormLabel>
+                        <SelectDropdown
+                          defaultValue={field.value}
+                          onValueChange={field.onChange}
+                          items={paymentMethodOptions}
+                          placeholder="Chọn phương thức thanh toán"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="paymentStatus"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Trạng thái thanh toán</FormLabel>
+                        <SelectDropdown
+                          defaultValue={field.value}
+                          onValueChange={field.onChange}
+                          items={paymentStatusOptions}
+                          placeholder="Chọn trạng thái thanh toán"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Trạng thái đơn hàng</FormLabel>
+                        <SelectDropdown
+                          defaultValue={field.value}
+                          onValueChange={field.onChange}
+                          items={statusOptions}
+                          placeholder="Chọn trạng thái đơn hàng"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -349,59 +349,59 @@ export function OrdersMutateDrawer({ open, onOpenChange }: OrdersMutateDrawerPro
                   >
                     <div className="flex items-end gap-4">
                       <div className="flex-1 min-w-0">
-                    <FormField
-                      control={form.control}
-                      name={`orderItems.${index}.productId`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Sản phẩm</FormLabel>
-                          <SelectDropdown
-                            defaultValue={field.value}
-                            onValueChange={field.onChange}
-                            items={products}
-                            placeholder="Chọn sản phẩm"
-                            disabled={productsLoading}
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                        <FormField
+                          control={form.control}
+                          name={`orderItems.${index}.productId`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Sản phẩm</FormLabel>
+                              <SelectDropdown
+                                defaultValue={field.value}
+                                onValueChange={field.onChange}
+                                items={products}
+                                placeholder="Chọn sản phẩm"
+                                disabled={productsLoading}
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                       <div className="flex items-end gap-2 shrink-0">
-                    <FormField
-                      control={form.control}
-                      name={`orderItems.${index}.quantity`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Số lượng</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              type="number"
-                              min={1}
-                              placeholder="SL"
-                              onChange={(e) => field.onChange(Number(e.target.value))}
+                        <FormField
+                          control={form.control}
+                          name={`orderItems.${index}.quantity`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Số lượng</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="number"
+                                  min={1}
+                                  placeholder="SL"
+                                  onChange={(e) => field.onChange(Number(e.target.value))}
                                   className="w-20"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                         {orderItems.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
+                          <Button
+                            type="button"
+                            variant="outline"
                             size="icon"
-                      onClick={() => removeOrderItem(index)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
+                            onClick={() => removeOrderItem(index)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
                     </div>
-                </div>
-              ))}
+                  </div>
+                ))}
                 <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
                   <p className="font-semibold">Tổng tiền</p>
                   <p className="font-semibold text-lg">{formatCurrency(totalAmount)}</p>

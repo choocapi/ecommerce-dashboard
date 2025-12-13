@@ -18,13 +18,10 @@ export function BannersProvider({ children }: { children: React.ReactNode }) {
   const [currentRow, setCurrentRow] = useState<IBanner | null>(null);
 
   return (
-    <BannersContext value={{ open, setOpen, currentRow, setCurrentRow }}>
-      {children}
-    </BannersContext>
+    <BannersContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</BannersContext>
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useBanners = () => {
   const bannersContext = React.useContext(BannersContext);
 

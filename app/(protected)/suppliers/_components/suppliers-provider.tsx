@@ -24,7 +24,6 @@ export function SuppliersProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useSuppliers = () => {
   const suppliersContext = React.useContext(SuppliersContext);
 

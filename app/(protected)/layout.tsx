@@ -36,10 +36,8 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
       return;
     }
 
-    // Check route permissions
     const feature = getFeatureForRoute(pathname);
     if (feature && !canView(user, feature)) {
-      // User doesn't have VIEW permission for this route
       window.location.href = "/";
       return;
     }

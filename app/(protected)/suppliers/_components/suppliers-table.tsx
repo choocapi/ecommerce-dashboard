@@ -35,7 +35,7 @@ type DataTableProps = {
 };
 
 export function SuppliersTable({ data }: DataTableProps) {
-  // Local UI-only states
+  // UI-only states
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -43,13 +43,13 @@ export function SuppliersTable({ data }: DataTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // URL state management
+  // URL states
   const pageParam = searchParams.get("page");
   const pageIndex = pageParam ? Math.max(0, Number(pageParam) - 1) : 0;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
   const globalFilter = searchParams.get("filter") || "";
 
-  // Local state for search input (to prevent input lag)
+  // Local state for search input
   const [searchInput, setSearchInput] = useState(globalFilter);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -113,10 +113,7 @@ export function SuppliersTable({ data }: DataTableProps) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    // onGlobalFilterChange is now handled by handleSearchChange with debounce
-    onGlobalFilterChange: () => {
-      // This is handled by handleSearchChange, but we keep it to avoid warnings
-    },
+    onGlobalFilterChange: () => {},
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
@@ -146,7 +143,7 @@ export function SuppliersTable({ data }: DataTableProps) {
 
   // Handle search input change with debounce
   const handleSearchChange = (value: string) => {
-    setSearchInput(value); // Update input immediately (no lag)
+    setSearchInput(value);
 
     // Clear existing timeout
     if (debounceTimeoutRef.current) {
@@ -157,7 +154,7 @@ export function SuppliersTable({ data }: DataTableProps) {
     debounceTimeoutRef.current = setTimeout(() => {
       updateUrl({
         filter: value || null,
-        page: "1", // Reset to first page when filtering
+        page: "1",
       });
     }, 500);
   };

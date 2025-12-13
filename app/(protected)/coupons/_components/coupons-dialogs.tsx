@@ -1,4 +1,4 @@
-import { CouponsMutateDrawer } from "./coupons-mutate-drawer";
+import { CouponsDrawer } from "./coupons-drawer";
 import { useCoupons } from "./coupons-provider";
 
 export function CouponsDialogs() {
@@ -6,14 +6,14 @@ export function CouponsDialogs() {
 
   return (
     <>
-      <CouponsMutateDrawer
+      <CouponsDrawer
         key="coupon-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
         currentCoupon={null}
       />
 
-      <CouponsMutateDrawer
+      <CouponsDrawer
         key={`coupon-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {

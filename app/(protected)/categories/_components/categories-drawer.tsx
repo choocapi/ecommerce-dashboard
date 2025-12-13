@@ -35,17 +35,13 @@ import { ICategory } from "@/types/products";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-interface CategoriesMutateDrawerProps {
+interface CategoriesDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentCategory: ICategory | null;
 }
 
-export function CategoriesMutateDrawer({
-  open,
-  onOpenChange,
-  currentCategory,
-}: CategoriesMutateDrawerProps) {
+export function CategoriesDrawer({ open, onOpenChange, currentCategory }: CategoriesDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const isUpdate = !!currentCategory;
@@ -106,14 +102,6 @@ export function CategoriesMutateDrawer({
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      // Auto-generate slug from name if not provided
-      if (!values.slug && values.name) {
-        values.slug = values.name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "");
-      }
-
       if (isUpdate && currentCategory) {
         await categoryService.update(currentCategory.id, values);
         toast.success("Đã cập nhật danh mục thành công");

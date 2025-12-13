@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { getTypeLabel, getTypeVariant } from "@/types/inventory";
 import type { IInventoryTransactionStatistics } from "@/types/statistics";
 import { formatCurrency, formatDateTime } from "@/utils";
 import { Package } from "lucide-react";
@@ -13,32 +14,6 @@ export function RecentInventoryTransactions({ data }: RecentInventoryTransaction
   if (!data || data.length === 0) {
     return <div className="text-center text-muted-foreground py-8">Chưa có giao dịch nào</div>;
   }
-
-  const getTypeVariant = (type: string) => {
-    switch (type) {
-      case "IN":
-        return "default";
-      case "OUT":
-        return "destructive";
-      case "ADJUST":
-        return "secondary";
-      default:
-        return "outline";
-    }
-  };
-
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case "IN":
-        return "Nhập kho";
-      case "OUT":
-        return "Xuất kho";
-      case "ADJUST":
-        return "Điều chỉnh";
-      default:
-        return type;
-    }
-  };
 
   return (
     <div className="space-y-2">

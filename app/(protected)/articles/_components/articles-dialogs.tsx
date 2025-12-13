@@ -1,4 +1,4 @@
-import { ArticlesMutateDrawer } from "./articles-mutate-drawer";
+import { ArticlesDrawer } from "./articles-drawer";
 import { useArticles } from "./articles-provider";
 
 export function ArticlesDialogs() {
@@ -6,14 +6,14 @@ export function ArticlesDialogs() {
 
   return (
     <>
-      <ArticlesMutateDrawer
+      <ArticlesDrawer
         key="article-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
         currentArticle={null}
       />
 
-      <ArticlesMutateDrawer
+      <ArticlesDrawer
         key={`article-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {

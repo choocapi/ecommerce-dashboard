@@ -1,30 +1,29 @@
-import { ProductsMutateDrawer } from './products-mutate-drawer'
-import { useProducts } from './products-provider'
+import { ProductsDrawer } from "./products-drawer";
+import { useProducts } from "./products-provider";
 
 export function ProductsDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } = useProducts()
+  const { open, setOpen, currentRow, setCurrentRow } = useProducts();
 
   return (
     <>
-      <ProductsMutateDrawer
-        key='product-create'
-        open={open === 'create'}
-        onOpenChange={() => setOpen('create')}
+      <ProductsDrawer
+        key="product-create"
+        open={open === "create"}
+        onOpenChange={() => setOpen("create")}
         currentProduct={null}
       />
 
-      <ProductsMutateDrawer
+      <ProductsDrawer
         key={`product-update-${currentRow?.id}`}
-        open={open === 'update'}
+        open={open === "update"}
         onOpenChange={() => {
-          setOpen('update')
+          setOpen("update");
           setTimeout(() => {
-            setCurrentRow(null)
-          }, 500)
+            setCurrentRow(null);
+          }, 500);
         }}
         currentProduct={currentRow}
       />
-
     </>
-  )
+  );
 }

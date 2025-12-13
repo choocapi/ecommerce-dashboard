@@ -1,16 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Feature } from "@/config/permissions-config";
+import { useFeaturePermissions } from "@/hooks/use-feature-permissions";
 import { IProduct, getProductImageUrl, getQuantityVariant } from "@/types/products";
 import { formatCurrency } from "@/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useInventory } from "./inventory-provider";
-import { useFeaturePermissions } from "@/hooks/use-feature-permissions";
-import { Feature } from "@/config/permissions-config";
 
-// Actions Cell Component
-function ActionsCell({ product }: { product: IProduct }) {
+function ActionGroup({ product }: { product: IProduct }) {
   const router = useRouter();
   const { setOpen, setCurrentRow } = useInventory();
   const { canCreate } = useFeaturePermissions(Feature.INVENTORY);
@@ -138,7 +137,7 @@ export const inventoryColumns: ColumnDef<IProduct>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell product={row.original} />,
+    cell: ({ row }) => <ActionGroup product={row.original} />,
     enableSorting: false,
   },
   // Hidden columns for filtering

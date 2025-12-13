@@ -15,8 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useArticles } from "./articles-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ article }: { article: IArticle }) {
+function ActionGroup({ article }: { article: IArticle }) {
   const { setOpen, setCurrentRow } = useArticles();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.ARTICLES);
@@ -29,7 +28,6 @@ function ActionsCell({ article }: { article: IArticle }) {
       await articleService.delete(article.id);
       toast.success("Đã xóa bài viết thành công");
 
-      // Invalidate and refetch articles data
       await queryClient.invalidateQueries({
         queryKey: ["articles"],
       });
@@ -41,7 +39,6 @@ function ActionsCell({ article }: { article: IArticle }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -168,7 +165,7 @@ export const articlesColumns: ColumnDef<IArticle>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell article={row.original} />,
+    cell: ({ row }) => <ActionGroup article={row.original} />,
     enableSorting: false,
   },
 ];

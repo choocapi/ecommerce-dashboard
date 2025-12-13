@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true });
 
-          //  gọi api
+          // Call API
           await authService.signUp(email, password, firstName, lastName);
 
           toast.success("Đăng ký thành công! Bạn sẽ được chuyển sang trang đăng nhập.");

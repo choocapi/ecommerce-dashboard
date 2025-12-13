@@ -1,4 +1,4 @@
-import { StaffsMutateDrawer } from "./staffs-mutate-drawer";
+import { StaffsDrawer } from "./staffs-drawer";
 import { useStaffs } from "./staffs-provider";
 
 export function StaffsDialogs() {
@@ -6,14 +6,14 @@ export function StaffsDialogs() {
 
   return (
     <>
-      <StaffsMutateDrawer
+      <StaffsDrawer
         key="staff-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
         currentStaff={null}
       />
 
-      <StaffsMutateDrawer
+      <StaffsDrawer
         key={`staff-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {

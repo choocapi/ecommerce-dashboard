@@ -1,4 +1,4 @@
-import { CategoriesMutateDrawer } from "./categories-mutate-drawer";
+import { CategoriesDrawer } from "./categories-drawer";
 import { useCategories } from "./categories-provider";
 
 export function CategoriesDialogs() {
@@ -6,14 +6,14 @@ export function CategoriesDialogs() {
 
   return (
     <>
-      <CategoriesMutateDrawer
+      <CategoriesDrawer
         key="category-create"
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
         currentCategory={null}
       />
 
-      <CategoriesMutateDrawer
+      <CategoriesDrawer
         key={`category-update-${currentRow?.id}`}
         open={open === "update"}
         onOpenChange={() => {

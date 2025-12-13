@@ -25,17 +25,13 @@ import { bannerService } from "@/services/bannerService";
 import { IBanner } from "@/types/banner";
 import { Loader2 } from "lucide-react";
 
-interface BannersMutateDrawerProps {
+interface BannersDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentBanner: IBanner | null;
 }
 
-export function BannersMutateDrawer({
-  open,
-  onOpenChange,
-  currentBanner,
-}: BannersMutateDrawerProps) {
+export function BannersDrawer({ open, onOpenChange, currentBanner }: BannersDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 

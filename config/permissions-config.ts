@@ -8,31 +8,18 @@ export enum PermissionType {
 }
 
 export enum Feature {
-  // Products
   PRODUCTS = "PRODUCTS",
   CATEGORIES = "CATEGORIES",
   BRANDS = "BRANDS",
-
-  // Sales
   ORDERS = "ORDERS",
   RETURN_REQUESTS = "RETURN_REQUESTS",
-
-  // Inventory
   INVENTORY = "INVENTORY",
   SUPPLIERS = "SUPPLIERS",
-
-  // Customers
   CUSTOMERS = "CUSTOMERS",
-
-  // Staff
   STAFFS = "STAFFS",
-
-  // Marketing
   BANNERS = "BANNERS",
   ARTICLES = "ARTICLES",
   COUPONS = "COUPONS",
-
-  // Settings
   PROFILE = "PROFILE",
   SYSTEM_SETTINGS = "SYSTEM_SETTINGS",
 }

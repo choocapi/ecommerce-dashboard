@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { inventoryTransactionService } from "@/services/inventoryTransactionService";
 import { InventoryTransactionTypeEnum } from "@/types/enums";
-import { IInventoryTransaction } from "@/types/inventory";
+import { IInventoryTransaction, getTypeLabel, getTypeVariant } from "@/types/inventory";
 import { formatCurrency, formatDateTime } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -30,32 +30,6 @@ import { useState } from "react";
 interface InventoryTransactionsTableProps {
   productId: number;
 }
-
-const getTypeColor = (type: string) => {
-  switch (type) {
-    case InventoryTransactionTypeEnum.IN:
-      return "default";
-    case InventoryTransactionTypeEnum.OUT:
-      return "destructive";
-    case InventoryTransactionTypeEnum.ADJUST:
-      return "secondary";
-    default:
-      return "outline";
-  }
-};
-
-const getTypeLabel = (type: string) => {
-  switch (type) {
-    case InventoryTransactionTypeEnum.IN:
-      return "Nhập kho";
-    case InventoryTransactionTypeEnum.OUT:
-      return "Xuất kho";
-    case InventoryTransactionTypeEnum.ADJUST:
-      return "Điều chỉnh";
-    default:
-      return type;
-  }
-};
 
 const formatQuantityChange = (transaction: IInventoryTransaction): string => {
   if (transaction.type === InventoryTransactionTypeEnum.ADJUST) {
@@ -82,7 +56,7 @@ export const inventoryTransactionsColumns: ColumnDef<IInventoryTransaction>[] = 
     cell: ({ row }) => {
       const type = row.getValue("type") as string;
       return (
-        <Badge variant={getTypeColor(type)} className="font-medium">
+        <Badge variant={getTypeVariant(type)} className="font-medium">
           {getTypeLabel(type)}
         </Badge>
       );

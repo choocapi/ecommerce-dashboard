@@ -27,13 +27,13 @@ import { brandService } from "@/services/brandService";
 import { IBrand } from "@/types/products";
 import { Loader2 } from "lucide-react";
 
-interface BrandsMutateDrawerProps {
+interface BrandsDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentBrand: IBrand | null;
 }
 
-export function BrandsMutateDrawer({ open, onOpenChange, currentBrand }: BrandsMutateDrawerProps) {
+export function BrandsDrawer({ open, onOpenChange, currentBrand }: BrandsDrawerProps) {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const isUpdate = !!currentBrand;
@@ -75,14 +75,6 @@ export function BrandsMutateDrawer({ open, onOpenChange, currentBrand }: BrandsM
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      // Auto-generate slug from name if not provided
-      if (!values.slug && values.name) {
-        values.slug = values.name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "");
-      }
-
       if (isUpdate && currentBrand) {
         await brandService.update(currentBrand.id, values);
         toast.success("Đã cập nhật thương hiệu thành công");
@@ -117,7 +109,7 @@ export function BrandsMutateDrawer({ open, onOpenChange, currentBrand }: BrandsM
             onSubmit={form.handleSubmit(handleSubmit)}
             className="flex-1 space-y-6 overflow-y-auto px-4 pb-6"
           >
-            {/* Basic Info */}
+            {/* Thông tin cơ bản */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
               <div className="rounded-lg border bg-card p-4 space-y-4">
@@ -155,7 +147,7 @@ export function BrandsMutateDrawer({ open, onOpenChange, currentBrand }: BrandsM
               </div>
             </div>
 
-            {/* Brand Settings */}
+            {/* Thông tin khác */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Thông tin khác</h3>
               <div className="rounded-lg border bg-card p-4 space-y-4">

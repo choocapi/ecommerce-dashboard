@@ -14,8 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useBrands } from "./brands-provider";
 
-// Actions Cell Component with Confirm Dialog
-function ActionsCell({ brand }: { brand: IBrand }) {
+function ActionGroup({ brand }: { brand: IBrand }) {
   const { setOpen, setCurrentRow } = useBrands();
   const queryClient = useQueryClient();
   const { canUpdate, canDelete } = useFeaturePermissions(Feature.BRANDS);
@@ -40,7 +39,6 @@ function ActionsCell({ brand }: { brand: IBrand }) {
     }
   };
 
-  // Don't show actions if user has no permissions
   if (!canUpdate && !canDelete) {
     return <div className="text-muted-foreground text-sm">Cần quyền</div>;
   }
@@ -162,7 +160,7 @@ export const brandsColumns: ColumnDef<IBrand>[] = [
   {
     id: "actions",
     header: "Thao tác",
-    cell: ({ row }) => <ActionsCell brand={row.original} />,
+    cell: ({ row }) => <ActionGroup brand={row.original} />,
     enableSorting: false,
   },
 ];

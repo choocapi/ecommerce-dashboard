@@ -37,7 +37,7 @@ type DataTableProps = {
 };
 
 export function StaffsTable({ data }: DataTableProps) {
-  // Local UI-only states
+  // UI-only states
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -48,7 +48,7 @@ export function StaffsTable({ data }: DataTableProps) {
   // Get current user from store
   const { user: currentUser } = useAuthStore();
 
-  // URL state management
+  // URL states
   const pageParam = searchParams.get("page");
   const pageIndex = pageParam ? Math.max(0, Number(pageParam) - 1) : 0;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
@@ -56,7 +56,7 @@ export function StaffsTable({ data }: DataTableProps) {
   const statusFilter = searchParams.get("status");
   const verifiedFilter = searchParams.get("verified");
 
-  // Local state for search input (to prevent input lag)
+  // Local state for search input
   const [searchInput, setSearchInput] = useState(globalFilter);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -66,7 +66,7 @@ export function StaffsTable({ data }: DataTableProps) {
     ...(verifiedFilter !== null ? [{ id: "emailVerified", value: [verifiedFilter] }] : []),
   ]);
 
-  // Update URL when column filters change
+  // Update URL when pagination/filter changes
   const updateColumnFilters = (updaterOrValue: any) => {
     const newFilters =
       typeof updaterOrValue === "function" ? updaterOrValue(columnFilters) : updaterOrValue;
@@ -77,7 +77,7 @@ export function StaffsTable({ data }: DataTableProps) {
     // Remove existing filter params
     newParams.delete("status");
     newParams.delete("verified");
-    newParams.delete("page"); // Reset to first page
+    newParams.delete("page");
 
     // Add new filter params
     newFilters.forEach((filter: any) => {
@@ -181,10 +181,7 @@ export function StaffsTable({ data }: DataTableProps) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    // onGlobalFilterChange is now handled by handleSearchChange with debounce
-    onGlobalFilterChange: () => {
-      // This is handled by handleSearchChange, but we keep it to avoid warnings
-    },
+    onGlobalFilterChange: () => {},
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
@@ -214,7 +211,7 @@ export function StaffsTable({ data }: DataTableProps) {
 
   // Handle search input change with debounce
   const handleSearchChange = (value: string) => {
-    setSearchInput(value); // Update input immediately (no lag)
+    setSearchInput(value);
 
     // Clear existing timeout
     if (debounceTimeoutRef.current) {
@@ -225,7 +222,7 @@ export function StaffsTable({ data }: DataTableProps) {
     debounceTimeoutRef.current = setTimeout(() => {
       updateUrl({
         filter: value || null,
-        page: "1", // Reset to first page when filtering
+        page: "1",
       });
     }, 500);
   };
